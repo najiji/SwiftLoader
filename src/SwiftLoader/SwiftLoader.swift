@@ -60,15 +60,35 @@ public class SwiftLoader: UIView {
         let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
         loader.center = center
         
-        loader.coverView = UIView(frame: currentWindow.bounds)
-        loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
+        if(loader.config.foregroundGlassEffect) {
+            loader.coverView = UIVisualEffectView(frame: currentWindow.frame)
+            UIView.animateWithDuration(0.8) {
+                (loader.coverView as? UIVisualEffectView)!.effect = UIBlurEffect(style: .Light)
+            }
+        }
+        
+        else {
+            loader.coverView = UIView(frame: currentWindow.bounds)
+            loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
+        }
         
         if (loader.superview == nil) {
             currentWindow.addSubview(loader.coverView!)
             currentWindow.addSubview(loader)
             loader.start()
         } else {
-            loader.coverView?.removeFromSuperview()
+            
+            if(loader.config.foregroundGlassEffect) {
+
+                UIView.animateWithDuration(0.5, animations: {
+                    (loader.coverView as? UIVisualEffectView)!.effect = nil
+                    }, completion: {(ok) in
+                    loader.coverView?.removeFromSuperview()
+                })
+            }
+            else {
+                loader.coverView?.removeFromSuperview()
+            }
         }
     }
     
@@ -315,6 +335,11 @@ public class SwiftLoader: UIView {
         *  Foreground alpha CGFloat, between 0.0 and 1.0
         */
         public var foregroundAlpha:CGFloat = 0.0
+        
+        /**
+        *  Foreground Frosted Glass
+        */
+        public var foregroundGlassEffect = true
         
         /**
         *  Corner radius for loader

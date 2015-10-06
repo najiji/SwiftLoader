@@ -21,7 +21,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red:0.98, green:0.93, blue:0.81, alpha:1)
+        self.view.backgroundColor = UIColor.whiteColor()
+        let imageView = UIImageView(image: UIImage(named: "Tux"))
+        self.view.addSubview(imageView)
+        
         self.addButton()
     }
     
@@ -38,13 +41,14 @@ class ViewController: UIViewController {
         
         var config : SwiftLoader.Config = SwiftLoader.Config()
         config.size = 170
-        config.backgroundColor = UIColor(red:0.03, green:0.82, blue:0.7, alpha:1)
-        config.spinnerColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
-        config.titleTextColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
+        config.backgroundColor = UIColor.grayColor()
+        config.spinnerColor = UIColor.whiteColor()
+        config.titleTextColor = UIColor.whiteColor()
         config.spinnerLineWidth = 2.0
         config.foregroundColor = UIColor.blackColor()
         config.foregroundAlpha = 0.5
         config.speed = 1.5
+        config.foregroundGlassEffect = false
         
         
         SwiftLoader.setConfig(config)
