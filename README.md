@@ -1,8 +1,15 @@
-# SwiftLoader
+# SwiftLoader - Fork with glass effects
+
+This is a fork of leoru's [SwiftLoader](https://github.com/leoru/SwiftLoader) which defaults to iOS 8 Glass Effects instead of the animations present in the original version
+
+
+**Thank you** - [Kirill Kunst](https://github.com/leoru) ([@kirill_kunst](https://twitter.com/kirill_kunst)) **For this software!**
+
+
 SwiftLoader is a simple and beautiful activity indicator written in Swift.
 
 ###Example
-<img src="https://raw.githubusercontent.com/leoru/SwiftLoader/master/images/loadergif.gif">
+<img src="https://raw.githubusercontent.com/najiji/SwiftLoader/master/images/screen.png">
 
 
 ## Usage
@@ -14,12 +21,12 @@ import SwiftLoader
 
 Show SwiftLoader without text:
 ```swift
-  SwiftLoader.show(animated: true)
+  SwiftLoader.show()
 ```
 
 Show SwiftLoader with text: 
 ```swift
-  SwiftLoader.show(title: "Loading...", animated: true)
+  SwiftLoader.show(title: "Loading...")
 ```
 
 Hide SwiftLoader:
@@ -54,19 +61,27 @@ and set new config for SwiftLoader:
 * foregroundColor - Foreground color for loader
 * cornerRadius - Radius of corners of loader
 * foregroundAlpha - Alpha property for foreground
+* speed - speed of the circle. Default is 2.0
+* foregroundGlassEffect - toggles glass effect
 
 
 ## Install
-SwiftSpinner is available through CocoaPods. To install it, simply add the following line to your Podfile:
+To install this fork of SwiftLoader using CocoaPods you have to specifically specify this repository:
 
 ```swift
-pod install 'SwiftLoader'
+pod 'SwiftLoader', :git => 'git://github.com/najiji/SwiftLoader'
 ```
-NB: Currently Swift Cocoapods work only with 0.36 pre-release version. If you want to learn how to install a Swift cocoapod read more here: http://blog.cocoapods.org/Pod-Authors-Guide-to-CocoaPods-Frameworks/
+
+To install the original version, just add 
+
+```swift
+pod 'SwiftLoader'
+```
 
 In case you don’t want to use CocoaPods - just copy the file SwiftLoader/SwiftLoader.swift to your Xcode project.
 
 ### Maintainers
+- najiji
 - [Kirill Kunst](https://github.com/leoru) ([@kirill_kunst](https://twitter.com/kirill_kunst))
 
 ## License

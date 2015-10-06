@@ -19,9 +19,9 @@ public class SwiftLoader: UIView {
     private var coverView : UIView?
     private var titleLabel : UILabel?
     private var loadingView : SwiftLoadingView?
-    private var animated : Bool?
     private var canUpdated = false
     private var title: String?
+    private var isShowing : Bool = false
     
     private var config : Config = Config() {
         didSet {
@@ -42,16 +42,15 @@ public class SwiftLoader: UIView {
         return Singleton.instance
     }
     
-    public class func show(animated animated: Bool) {
-        self.show(title: nil, animated: animated)
+    public class func show() {
+        self.show(title: nil)
     }
     
-    public class func show(title title: String?, animated : Bool) {
+    public class func show(title title: String?) {
         let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
         loader.canUpdated = true
-        loader.animated = animated
         loader.title = title
         loader.update()
         
@@ -60,41 +59,33 @@ public class SwiftLoader: UIView {
         let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
         loader.center = center
         
-        if(loader.config.foregroundGlassEffect) {
-            loader.coverView = UIVisualEffectView(frame: currentWindow.frame)
-            UIView.animateWithDuration(0.8) {
-                (loader.coverView as? UIVisualEffectView)!.effect = UIBlurEffect(style: .Light)
+        if !loader.isShowing {
+            if(loader.config.foregroundGlassEffect) {
+                loader.coverView = UIVisualEffectView(frame: currentWindow.frame)
+                UIView.animateWithDuration(0.8) {
+                    (loader.coverView as? UIVisualEffectView)!.effect = UIBlurEffect(style: .Light)
+                }
             }
-        }
-        
-        else {
-            loader.coverView = UIView(frame: currentWindow.bounds)
-            loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
-        }
-        
-        if (loader.superview == nil) {
+                
+            else {
+                loader.coverView = UIView(frame: currentWindow.bounds)
+                loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
+            }
+            
             currentWindow.addSubview(loader.coverView!)
             currentWindow.addSubview(loader)
             loader.start()
-        } else {
-            
-            if(loader.config.foregroundGlassEffect) {
-
-                UIView.animateWithDuration(0.5, animations: {
-                    (loader.coverView as? UIVisualEffectView)!.effect = nil
-                    }, completion: {(ok) in
-                    loader.coverView?.removeFromSuperview()
-                })
-            }
-            else {
-                loader.coverView?.removeFromSuperview()
-            }
         }
+       
+        loader.isShowing = true
     }
     
     public class func hide() {
         let loader = SwiftLoader.sharedInstance
-        loader.stop()
+        
+        if loader.isShowing {
+            loader.stop()
+        }
     }
     
     public class func setConfig(config : Config) {
@@ -108,40 +99,32 @@ public class SwiftLoader: UIView {
     */
     
     private func setup() {
-        self.alpha = 0
         self.update()
     }
     
     private func start() {
         self.loadingView?.start()
-        
-        if (self.animated!) {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.alpha = 1
-                }, completion: { (finished) -> Void in
-                    
-            });
-        } else {
-            self.alpha = 1
-        }
     }
     
     private func stop() {
         
-        if (self.animated!) {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.alpha = 0
+        if (self.config.foregroundGlassEffect) {
+            self.removeFromSuperview()
+            UIView.animateWithDuration(0.5, animations: {
+                (self.coverView as! UIVisualEffectView).effect = nil
                 }, completion: { (finished) -> Void in
-                    self.removeFromSuperview()
-                    self.coverView?.removeFromSuperview()
-                    self.loadingView?.stop()
-            });
-        } else {
-            self.alpha = 0
+                    if(finished){
+                        self.coverView?.removeFromSuperview()
+                        self.loadingView?.stop()
+                    }
+                });
+        }
+        else {
             self.removeFromSuperview()
             self.coverView?.removeFromSuperview()
             self.loadingView?.stop()
         }
+        self.isShowing = false
     }
     
     private func update() {
@@ -334,7 +317,7 @@ public class SwiftLoader: UIView {
         /**
         *  Foreground alpha CGFloat, between 0.0 and 1.0
         */
-        public var foregroundAlpha:CGFloat = 0.0
+        public var foregroundAlpha:CGFloat = 0.5
         
         /**
         *  Foreground Frosted Glass

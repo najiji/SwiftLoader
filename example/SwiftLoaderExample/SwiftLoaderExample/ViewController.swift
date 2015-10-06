@@ -41,24 +41,24 @@ class ViewController: UIViewController {
         
         var config : SwiftLoader.Config = SwiftLoader.Config()
         config.size = 170
-        config.backgroundColor = UIColor.grayColor()
-        config.spinnerColor = UIColor.whiteColor()
-        config.titleTextColor = UIColor.whiteColor()
+        config.backgroundColor = UIColor.clearColor()
+        config.spinnerColor = UIColor(red: 240.0/255.0, green: 4.0/255.0, blue: 59.0/255.0, alpha: 1.0)
+        config.titleTextColor = UIColor(red: 240.0/255.0, green: 4.0/255.0, blue: 59.0/255.0, alpha: 1.0)
         config.spinnerLineWidth = 2.0
         config.foregroundColor = UIColor.blackColor()
         config.foregroundAlpha = 0.5
         config.speed = 1.5
-        config.foregroundGlassEffect = false
+        config.foregroundGlassEffect = true
         
         
         SwiftLoader.setConfig(config)
         
-        SwiftLoader.show(animated: true)
+        SwiftLoader.show()
         
-        delay(seconds: 3.0) { () -> () in
-            SwiftLoader.show(title: "Loading...", animated: true)
+        delay(seconds: 1.0) { () -> () in
+            SwiftLoader.show(title: "Just a second")
         }
-        delay(seconds: 6.0) { () -> () in
+        delay(seconds: 2.0) { () -> () in
             SwiftLoader.hide()
         }
         
