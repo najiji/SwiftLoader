@@ -255,7 +255,7 @@ public class SwiftLoader: UIView {
             self.drawBackgroundCircle(true)
             
             let rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-            rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
+            rotationAnimation.toValue = NSNumber(double: M_PI * self.config.speed)
             rotationAnimation.duration = 1;
             rotationAnimation.cumulative = true;
             rotationAnimation.repeatCount = HUGE;
@@ -320,6 +320,11 @@ public class SwiftLoader: UIView {
         *  Corner radius for loader
         */
         public var cornerRadius : CGFloat = 10.0
+        
+        /**
+        *   Speed of loading dialog
+        */
+        public var speed : Double = 2.0
         
         public init() {}
         

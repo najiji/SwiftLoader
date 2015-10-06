@@ -44,6 +44,7 @@ class ViewController: UIViewController {
         config.spinnerLineWidth = 2.0
         config.foregroundColor = UIColor.blackColor()
         config.foregroundAlpha = 0.5
+        config.speed = 1.5
         
         
         SwiftLoader.setConfig(config)
